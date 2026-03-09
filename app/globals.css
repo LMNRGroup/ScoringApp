@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 230 60% 99%;
+  --foreground: 228 28% 16%;
+  --muted: 230 48% 96%;
+  --muted-foreground: 228 14% 42%;
+  --card: 0 0% 100%;
+  --border: 230 35% 89%;
+  --primary: 252 80% 62%;
+  --primary-foreground: 0 0% 100%;
+  --accent: 214 90% 95%;
+  --success: 150 42% 45%;
+  --warning: 24 88% 54%;
+}
+
+* {
+  @apply border-border;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  @apply bg-background text-foreground antialiased;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(1000px 420px at 8% -6%, rgba(152, 120, 255, 0.14), transparent 62%),
+    radial-gradient(900px 380px at 96% 0%, rgba(139, 213, 255, 0.18), transparent 58%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(244, 247, 255, 1) 100%);
+}
+
+@layer components {
+  .glass-card {
+    @apply rounded-3xl border bg-white/80 shadow-card backdrop-blur;
+  }
+
+  .section-shell {
+    @apply mx-auto w-full max-w-6xl px-4 pb-10 pt-5 sm:px-6 lg:px-8;
+  }
+
+  .gradient-ring {
+    background: linear-gradient(120deg, rgba(130, 96, 247, 0.24), rgba(142, 210, 255, 0.18));
+  }
+}
