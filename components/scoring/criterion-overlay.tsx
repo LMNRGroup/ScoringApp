@@ -37,7 +37,7 @@ export function CriterionOverlay({
   return (
     <div className="fixed inset-0 z-50">
       <div className="absolute inset-0 bg-slate-900/30 backdrop-blur-[2px]" onClick={onClose} />
-      <div className="absolute inset-x-0 bottom-0 max-h-[92vh] overflow-y-auto rounded-t-[2rem] border border-border bg-white p-5 shadow-2xl sm:inset-6 sm:rounded-[2rem] sm:max-w-2xl sm:mx-auto sm:max-h-[88vh] animate-fadeUp">
+      <div className="absolute inset-x-0 bottom-0 max-h-[92vh] overflow-y-auto rounded-t-[2rem] border border-border bg-white p-5 pb-[calc(env(safe-area-inset-bottom)+1rem)] shadow-2xl sm:inset-6 sm:rounded-[2rem] sm:max-w-2xl sm:mx-auto sm:max-h-[88vh] animate-fadeUp">
         <div className="flex items-center justify-between gap-3">
           <div>
             <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Criterio</p>

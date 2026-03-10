@@ -106,7 +106,7 @@ export function ContestantDashboard({
         })}
       </section>
 
-      <footer className="sticky bottom-3 z-20">
+      <footer className="sticky bottom-3 z-20 pb-[env(safe-area-inset-bottom)]">
         <div className="rounded-3xl border border-border bg-white/95 p-3 shadow-soft backdrop-blur">
           <Button className="w-full" size="lg" variant="success" onClick={onSubmitRound} disabled={!allDone || roundData.submitted}>
             {roundData.submitted ? (
