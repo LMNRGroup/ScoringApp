@@ -21,7 +21,8 @@ export function SubmitRoundDialog({ open, contestantName, round, onCancel, onCon
         </div>
         <h3 className="text-lg font-semibold">Confirmar envío</h3>
         <p className="mt-2 text-sm text-muted-foreground">
-          Vas a enviar <strong>{contestantName}</strong> en <strong>Ronda {round}</strong>. Luego quedará bloqueada.
+          ¿Seguro que deseas enviar la hoja de puntuación de <strong>{contestantName}</strong> en{' '}
+          <strong>Ronda {round}</strong>? Luego quedará bloqueada.
         </p>
         <div className="mt-5 flex flex-wrap justify-end gap-2">
           <Button variant="secondary" onClick={onCancel}>

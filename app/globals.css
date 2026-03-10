@@ -103,3 +103,22 @@ textarea {
 .animate-logoGlow {
   animation: logoGlow 4.2s ease-in-out infinite;
 }
+
+.luminar-loader {
+  color: #374151;
+  background: linear-gradient(90deg, #374151 0%, #374151 45%, #f1c75d 60%, #cc9b2f 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: luminarFill 1.9s ease-out forwards;
+}
+
+@keyframes luminarFill {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}

@@ -17,9 +17,18 @@ export function WelcomeScreen({ judgeName, onChangeName, onContinue }: WelcomeSc
             <AppLogo size="lg" />
           </div>
           <CardTitle className="text-2xl sm:text-3xl">Miss/Mr. Teen Wonder Beauty</CardTitle>
-          <CardDescription>Ingresa tu nombre para iniciar la evaluación.</CardDescription>
+          <CardDescription>
+            Bienvenido a la aplicación de Coronas. Aquí podrás evaluar cada participante de forma rápida y clara.
+          </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent>
+          <form
+            className="space-y-4"
+            onSubmit={(event) => {
+              event.preventDefault();
+              onContinue();
+            }}
+          >
           <label className="space-y-2 block">
             <span className="text-sm text-muted-foreground">Nombre del jurado</span>
             <input
@@ -29,9 +38,10 @@ export function WelcomeScreen({ judgeName, onChangeName, onContinue }: WelcomeSc
               className="h-12 w-full rounded-2xl border border-border bg-white px-4 outline-none transition focus:ring-2 focus:ring-primary/35"
             />
           </label>
-          <Button onClick={onContinue} size="lg" className="w-full" disabled={judgeName.trim().length < 2}>
+          <Button type="submit" size="lg" className="w-full" disabled={judgeName.trim().length < 2}>
             Continuar
           </Button>
+          </form>
         </CardContent>
       </Card>
     </div>

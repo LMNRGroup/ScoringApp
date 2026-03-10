@@ -11,6 +11,7 @@ import { CriterionOverlay } from '@/components/scoring/criterion-overlay';
 import { SubmitRoundDialog } from '@/components/scoring/submit-round-dialog';
 
 const STORAGE_KEY = 'judging-prototype:v1';
+const INTRO_SEEN_KEY = 'luminar-intro-seen:v1';
 
 interface PersistedState {
   judgeName: string;
@@ -20,6 +21,7 @@ interface PersistedState {
 }
 
 export default function HomePage() {
+  const [isBooting, setIsBooting] = useState(true);
   const [judgeName, setJudgeName] = useState('');
   const [judgeConfirmed, setJudgeConfirmed] = useState(false);
   const [selectedContestantId, setSelectedContestantId] = useState<string | null>(null);
@@ -38,6 +40,21 @@ export default function HomePage() {
     () => criteria.find((item) => item.id === activeCriterionId) ?? null,
     [activeCriterionId]
   );
+
+  useEffect(() => {
+    const seenIntro = sessionStorage.getItem(INTRO_SEEN_KEY);
+    if (seenIntro) {
+      setIsBooting(false);
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      sessionStorage.setItem(INTRO_SEEN_KEY, '1');
+      setIsBooting(false);
+    }, 2000);
+
+    return () => window.clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -71,6 +88,11 @@ export default function HomePage() {
   }, [justSubmitted]);
 
   const isRoundLocked = !!(selectedContestant && scores[selectedContestant.id][selectedRound].submitted);
+  const isRoundSelectableForContestant = (contestantId: string, round: RoundId): boolean => {
+    if (round === 1) return true;
+    if (round === 2) return scores[contestantId][1].submitted;
+    return scores[contestantId][1].submitted && scores[contestantId][2].submitted;
+  };
 
   const openCriterion = (criterionId: string) => {
     if (!selectedContestant || isRoundLocked) return;
@@ -128,28 +150,45 @@ export default function HomePage() {
     setSelectedContestantId(null);
   };
 
+  if (isBooting) {
+    return (
+      <div className="min-h-screen grid place-items-center px-4">
+        <div className="text-center animate-fadeUp">
+          <p className="luminar-loader text-4xl sm:text-6xl font-extrabold tracking-[0.12em]">LUMINAR APPS</p>
+        </div>
+        <FixedFooter />
+      </div>
+    );
+  }
+
   if (!judgeConfirmed) {
     return (
-      <WelcomeScreen
-        judgeName={judgeName}
-        onChangeName={setJudgeName}
-        onContinue={() => {
-          if (judgeName.trim().length < 2) return;
-          setJudgeName(judgeName.trim());
-          setJudgeConfirmed(true);
-        }}
-      />
+      <>
+        <WelcomeScreen
+          judgeName={judgeName}
+          onChangeName={setJudgeName}
+          onContinue={() => {
+            if (judgeName.trim().length < 2) return;
+            setJudgeName(judgeName.trim());
+            setJudgeConfirmed(true);
+          }}
+        />
+        <FixedFooter />
+      </>
     );
   }
 
   if (!selectedContestant) {
     return (
-      <ContestantSelection
-        judgeName={judgeName}
-        contestants={contestants}
-        onSelect={setSelectedContestantId}
-        onChangeJudge={resetJudge}
-      />
+      <>
+        <ContestantSelection
+          judgeName={judgeName}
+          contestants={contestants}
+          onSelect={setSelectedContestantId}
+          onChangeJudge={resetJudge}
+        />
+        <FixedFooter />
+      </>
     );
   }
 
@@ -158,6 +197,8 @@ export default function HomePage() {
       ? scores[selectedContestant.id][selectedRound].criteria[activeCriterion.id]
       : {};
   const activeCriterionIndex = activeCriterion ? criteria.findIndex((criterion) => criterion.id === activeCriterion.id) : -1;
+
+  const allRoundsSubmitted = rounds.every((round) => scores[selectedContestant.id][round].submitted);
 
   return (
     <>
@@ -170,11 +211,14 @@ export default function HomePage() {
         rounds={rounds}
         onBackToContestants={() => setSelectedContestantId(null)}
         onSelectRound={(round) => {
+          if (!isRoundSelectableForContestant(selectedContestant.id, round)) return;
           setSelectedRound(round);
           setActiveCriterionId(null);
         }}
         onOpenCriterion={openCriterion}
         onSubmitRound={() => setSubmitDialogOpen(true)}
+        isRoundSelectable={(round) => isRoundSelectableForContestant(selectedContestant.id, round)}
+        allRoundsSubmitted={allRoundsSubmitted}
       />
 
       <CriterionOverlay
@@ -213,6 +257,17 @@ export default function HomePage() {
           </span>
         </div>
       ) : null}
+      <FixedFooter />
     </>
+  );
+}
+
+function FixedFooter() {
+  return (
+    <footer className="fixed bottom-0 inset-x-0 z-[60] pointer-events-none">
+      <div className="mx-auto w-fit rounded-t-2xl border border-border/80 bg-white/90 px-3 py-1.5 text-[11px] text-muted-foreground shadow-card backdrop-blur">
+        Crowns App by LuminarApps 2026 all rights reserved
+      </div>
+    </footer>
   );
 }

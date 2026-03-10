@@ -24,6 +24,8 @@ interface ContestantDashboardProps {
   onSelectRound: (round: RoundId) => void;
   onOpenCriterion: (criterionId: string) => void;
   onSubmitRound: () => void;
+  isRoundSelectable: (round: RoundId) => boolean;
+  allRoundsSubmitted: boolean;
 }
 
 export function ContestantDashboard({
@@ -37,6 +39,8 @@ export function ContestantDashboard({
   onSelectRound,
   onOpenCriterion,
   onSubmitRound,
+  isRoundSelectable,
+  allRoundsSubmitted,
 }: ContestantDashboardProps) {
   const roundData = scores[contestant.id][selectedRound];
   const completedCount = getRoundCompletedCount(scores, contestant.id, selectedRound, criteria);
@@ -75,7 +79,14 @@ export function ContestantDashboard({
         selectedRound={selectedRound}
         onSelectRound={onSelectRound}
         getStatus={(round) => getRoundStatus(scores, contestant.id, round, criteria)}
+        isRoundSelectable={isRoundSelectable}
       />
+
+      {allRoundsSubmitted ? (
+        <div className="rounded-3xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+          Resultado final cerrado. Las 3 rondas están enviadas y bloqueadas.
+        </div>
+      ) : null}
 
       <section className="grid gap-3 sm:grid-cols-3">
         <div className="rounded-3xl border border-border bg-white/85 p-4 shadow-card">
