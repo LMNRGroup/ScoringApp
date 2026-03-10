@@ -14,17 +14,19 @@ interface ContestantSelectionProps {
 export function ContestantSelection({ judgeName, contestants, onSelect, onChangeJudge }: ContestantSelectionProps) {
   return (
     <div className="section-shell animate-fadeUp space-y-6">
-      <header className="flex flex-wrap items-center justify-between gap-3 rounded-3xl bg-white/70 border border-border px-4 py-3 shadow-card">
-        <div className="flex items-center gap-3">
-          <AppLogo />
+      <header className="rounded-3xl bg-white/70 border border-border px-4 py-4 shadow-card sm:px-5 sm:py-5">
+        <div className="flex flex-col items-center gap-3 text-center">
+          <AppLogo size="xl" />
           <div>
             <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Jurado</p>
             <p className="font-semibold text-lg">{judgeName}</p>
           </div>
         </div>
+        <div className="mt-3 flex justify-center">
         <Button variant="secondary" size="sm" onClick={onChangeJudge}>
           Cambiar nombre
         </Button>
+        </div>
       </header>
 
       <div className="space-y-1">

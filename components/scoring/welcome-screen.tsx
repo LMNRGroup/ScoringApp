@@ -13,8 +13,8 @@ export function WelcomeScreen({ judgeName, onChangeName, onContinue }: WelcomeSc
     <div className="section-shell min-h-screen flex items-center">
       <Card className="w-full max-w-xl mx-auto animate-fadeUp">
         <CardHeader>
-          <div className="flex justify-center pb-1">
-            <AppLogo size="lg" />
+          <div className="flex justify-center pb-2">
+            <AppLogo size="hero" />
           </div>
           <CardTitle className="text-2xl sm:text-3xl">Miss/Mr. Teen Wonder Beauty</CardTitle>
           <CardDescription>
