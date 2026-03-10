@@ -2,6 +2,7 @@ import { CheckCircle2, Crown, X } from 'lucide-react';
 import { Criterion } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { CrownRating } from '@/components/scoring/crown-rating';
+import { AppLogo } from '@/components/brand/app-logo';
 
 interface CriterionOverlayProps {
   criterion: Criterion | null;
@@ -36,16 +37,24 @@ export function CriterionOverlay({
     <div className="fixed inset-0 z-50">
       <div className="absolute inset-0 bg-slate-900/30 backdrop-blur-[2px]" onClick={onClose} />
       <div className="absolute inset-x-0 bottom-0 max-h-[92vh] overflow-y-auto rounded-t-[2rem] border border-border bg-white p-5 pb-[calc(env(safe-area-inset-bottom)+1rem)] shadow-2xl sm:inset-6 sm:rounded-[2rem] sm:max-w-3xl sm:mx-auto sm:max-h-[88vh] animate-fadeUp">
-        <div className="flex items-center justify-between gap-3">
-          <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              Criterio {criterionIndex + 1} de {totalCriteria}
-            </p>
-            <h2 className="text-xl font-semibold">{criterion.name}</h2>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <AppLogo />
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                Criterio {criterionIndex + 1} de {totalCriteria}
+              </p>
+              <h2 className="text-xl font-semibold">{criterion.name}</h2>
+            </div>
           </div>
-          <Button variant="ghost" size="icon" onClick={onClose}>
-            <X className="h-5 w-5" />
-          </Button>
+          <div className="flex items-center gap-2 ml-auto">
+            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+              {allAspectsScored ? 'Completo' : 'Pendiente'}
+            </p>
+            <Button variant="ghost" size="icon" onClick={onClose}>
+              <X className="h-5 w-5" />
+            </Button>
+          </div>
         </div>
 
         <div className="mt-5 space-y-3">

@@ -11,6 +11,7 @@ import {
 } from '@/lib/scoring';
 import { CriterionCard } from '@/components/scoring/criterion-card';
 import { RoundSelector } from '@/components/scoring/round-selector';
+import { AppLogo } from '@/components/brand/app-logo';
 
 interface ContestantDashboardProps {
   judgeName: string;
@@ -46,9 +47,12 @@ export function ContestantDashboard({
     <div className="section-shell animate-fadeUp space-y-5">
       <header className="rounded-3xl border border-border bg-white/80 p-4 shadow-card">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <Button variant="ghost" onClick={onBackToContestants}>
-            <ArrowLeft className="h-4 w-4 mr-1" /> Participantes
-          </Button>
+          <div className="flex items-center gap-2">
+            <AppLogo />
+            <Button variant="ghost" onClick={onBackToContestants}>
+              <ArrowLeft className="h-4 w-4 mr-1" /> Participantes
+            </Button>
+          </div>
           <Badge variant="primary">Jurado: {judgeName}</Badge>
         </div>
         <div className="mt-3 flex flex-wrap items-end justify-between gap-3">

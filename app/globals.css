@@ -55,4 +55,51 @@ textarea {
   .gradient-ring {
     background: linear-gradient(120deg, rgba(130, 96, 247, 0.24), rgba(142, 210, 255, 0.18));
   }
+
+  .logo-gold {
+    background: linear-gradient(145deg, #fff5c8 0%, #f9de8a 32%, #d8a93e 58%, #b98218 100%);
+    -webkit-mask: url('/assets/IM_Logo.svg') center / contain no-repeat;
+    mask: url('/assets/IM_Logo.svg') center / contain no-repeat;
+    filter: drop-shadow(0 8px 18px rgba(180, 128, 16, 0.28));
+  }
+
+  .logo-sparkle {
+    @apply absolute pointer-events-none;
+    animation: sparklePulse 3.2s ease-in-out infinite;
+  }
+}
+
+@keyframes sparklePulse {
+  0%,
+  78%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.9);
+  }
+  82% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  86% {
+    opacity: 0.6;
+    transform: scale(0.92);
+  }
+  90% {
+    opacity: 0.95;
+    transform: scale(1);
+  }
+}
+
+@keyframes logoGlow {
+  0%,
+  100% {
+    filter: drop-shadow(0 8px 18px rgba(180, 128, 16, 0.24));
+  }
+  50% {
+    filter: drop-shadow(0 10px 22px rgba(180, 128, 16, 0.36));
+  }
+}
+
+.animate-logoGlow {
+  animation: logoGlow 4.2s ease-in-out infinite;
 }

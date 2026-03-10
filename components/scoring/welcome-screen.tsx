@@ -1,6 +1,6 @@
-import { Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { AppLogo } from '@/components/brand/app-logo';
 
 interface WelcomeScreenProps {
   judgeName: string;
@@ -13,10 +13,8 @@ export function WelcomeScreen({ judgeName, onChangeName, onContinue }: WelcomeSc
     <div className="section-shell min-h-screen flex items-center">
       <Card className="w-full max-w-xl mx-auto animate-fadeUp">
         <CardHeader>
-          <div className="w-fit rounded-2xl gradient-ring p-[1px]">
-            <div className="rounded-2xl bg-white px-3 py-2 text-primary">
-              <Sparkles className="h-5 w-5" />
-            </div>
+          <div className="flex justify-center pb-1">
+            <AppLogo size="lg" />
           </div>
           <CardTitle className="text-2xl sm:text-3xl">Miss/Mr. Teen Wonder Beauty</CardTitle>
           <CardDescription>Ingresa tu nombre para iniciar la evaluación.</CardDescription>

@@ -2,6 +2,7 @@ import { ArrowRight, Trophy } from 'lucide-react';
 import { Contestant } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { AppLogo } from '@/components/brand/app-logo';
 
 interface ContestantSelectionProps {
   judgeName: string;
@@ -14,9 +15,12 @@ export function ContestantSelection({ judgeName, contestants, onSelect, onChange
   return (
     <div className="section-shell animate-fadeUp space-y-6">
       <header className="flex flex-wrap items-center justify-between gap-3 rounded-3xl bg-white/70 border border-border px-4 py-3 shadow-card">
-        <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Jurado</p>
-          <p className="font-semibold text-lg">{judgeName}</p>
+        <div className="flex items-center gap-3">
+          <AppLogo />
+          <div>
+            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Jurado</p>
+            <p className="font-semibold text-lg">{judgeName}</p>
+          </div>
         </div>
         <Button variant="secondary" size="sm" onClick={onChangeJudge}>
           Cambiar nombre
