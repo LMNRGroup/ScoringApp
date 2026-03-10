@@ -259,7 +259,7 @@ export default function HomePage() {
       <SubmitRoundDialog
         open={submitDialogOpen}
         contestantName={selectedContestant.name}
-        round={selectedRound}
+        roundLabel={roundLabels[selectedRound]}
         onCancel={() => setSubmitDialogOpen(false)}
         onConfirm={handleSubmitRound}
       />
@@ -267,7 +267,7 @@ export default function HomePage() {
       {justSubmitted ? (
         <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm text-emerald-800 shadow-card animate-fadeUp">
           <span className="inline-flex items-center gap-1">
-            <CheckCircle2 className="h-4 w-4" /> Ronda enviada correctamente.
+            <CheckCircle2 className="h-4 w-4" /> Salida enviada correctamente.
           </span>
         </div>
       ) : null}

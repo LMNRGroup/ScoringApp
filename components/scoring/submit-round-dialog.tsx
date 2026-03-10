@@ -4,12 +4,12 @@ import { Button } from '@/components/ui/button';
 interface SubmitRoundDialogProps {
   open: boolean;
   contestantName: string;
-  round: number;
+  roundLabel: string;
   onCancel: () => void;
   onConfirm: () => void;
 }
 
-export function SubmitRoundDialog({ open, contestantName, round, onCancel, onConfirm }: SubmitRoundDialogProps) {
+export function SubmitRoundDialog({ open, contestantName, roundLabel, onCancel, onConfirm }: SubmitRoundDialogProps) {
   if (!open) return null;
 
   return (
@@ -22,7 +22,7 @@ export function SubmitRoundDialog({ open, contestantName, round, onCancel, onCon
         <h3 className="text-lg font-semibold">Confirmar envío</h3>
         <p className="mt-2 text-sm text-muted-foreground">
           ¿Seguro que deseas enviar la hoja de puntuación de <strong>{contestantName}</strong> en{' '}
-          <strong>Ronda {round}</strong>? Luego quedará bloqueada.
+          <strong>{roundLabel}</strong>? Luego quedará bloqueada.
         </p>
         <div className="mt-5 flex flex-wrap justify-end gap-2">
           <Button variant="secondary" onClick={onCancel}>

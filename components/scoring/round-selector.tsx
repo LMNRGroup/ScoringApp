@@ -26,7 +26,7 @@ const statusVariant = {
 export function RoundSelector({ rounds, roundLabels, selectedRound, onSelectRound, getStatus, isRoundSelectable }: RoundSelectorProps) {
   return (
     <div className="rounded-3xl border border-border bg-white/80 p-3 shadow-card">
-      <p className="px-1 pb-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">Rondas</p>
+      <p className="px-1 pb-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">Salidas</p>
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
         {rounds.map((round) => {
           const status = getStatus(round);

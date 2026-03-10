@@ -29,7 +29,7 @@ export function ContestantSelection({ judgeName, contestants, onSelect, onChange
 
       <div className="space-y-1">
         <h1 className="text-2xl sm:text-3xl font-semibold">Selecciona participante</h1>
-        <p className="text-sm text-muted-foreground">Escoge a quién deseas puntuar en esta ronda.</p>
+        <p className="text-sm text-muted-foreground">Escoge a quién deseas puntuar en esta salida.</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

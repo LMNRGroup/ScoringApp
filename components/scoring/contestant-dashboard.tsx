@@ -69,7 +69,7 @@ export function ContestantDashboard({
           </div>
           {roundData.submitted ? (
             <Badge variant="success">
-              <Lock className="h-3 w-3 mr-1" /> Ronda bloqueada
+              <Lock className="h-3 w-3 mr-1" /> Salida bloqueada
             </Badge>
           ) : (
             <Badge variant="warning">Edición activa</Badge>
@@ -88,7 +88,7 @@ export function ContestantDashboard({
 
       {allRoundsSubmitted ? (
         <div className="rounded-3xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
-          Resultado final cerrado. Las 3 rondas están enviadas y bloqueadas.
+          Resultado final cerrado. Las 3 salidas están enviadas y bloqueadas.
         </div>
       ) : null}
 
@@ -104,7 +104,7 @@ export function ContestantDashboard({
           <p className="mt-2 text-3xl font-semibold">{points}</p>
         </div>
         <div className="rounded-3xl border border-border bg-white/85 p-4 shadow-card">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Ronda actual</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Salida actual</p>
           <p className="mt-2 text-xl font-semibold">{roundLabels[selectedRound]}</p>
         </div>
       </section>
@@ -132,11 +132,11 @@ export function ContestantDashboard({
           <Button className="w-full" size="lg" variant="success" onClick={onSubmitRound} disabled={!allDone || roundData.submitted}>
             {roundData.submitted ? (
               <>
-                <Lock className="h-4 w-4 mr-1" /> Ronda enviada
+                <Lock className="h-4 w-4 mr-1" /> Salida enviada
               </>
             ) : (
               <>
-                <CheckCircle2 className="h-4 w-4 mr-1" /> Enviar ronda {selectedRound}
+                <CheckCircle2 className="h-4 w-4 mr-1" /> Enviar {roundLabels[selectedRound]}
               </>
             )}
           </Button>

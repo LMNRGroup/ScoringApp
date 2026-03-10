@@ -8,81 +8,10 @@ export const contestants: Contestant[] = [
 
 export const rounds: RoundId[] = [1, 2, 3];
 
-const legacyCriteria: Criterion[] = [
-  {
-    id: 'presentacion-personal',
-    name: 'Presentación Personal',
-    aspects: [
-      { id: 'arreglo-personal', name: 'Arreglo Personal' },
-      { id: 'postura', name: 'Postura' },
-      { id: 'expresion-facial', name: 'Expresión Facial' },
-      { id: 'maquillaje', name: 'Maquillaje' },
-      { id: 'peinado', name: 'Peinado' },
-    ],
-  },
-  {
-    id: 'vestuario-estilo',
-    name: 'Vestuario / Estilo',
-    aspects: [
-      { id: 'vestuario-acorde-ocasion', name: 'Vestuario acorde a la ocasión' },
-      { id: 'originalidad', name: 'Originalidad' },
-      { id: 'ajuste', name: 'Ajuste' },
-      { id: 'estilo', name: 'Estilo' },
-      { id: 'coherencia-personalidad', name: 'Coherencia con la personalidad' },
-    ],
-  },
-  {
-    id: 'pasarela',
-    name: 'Pasarela',
-    aspects: [
-      { id: 'seguridad', name: 'Seguridad' },
-      { id: 'postura-pasarela', name: 'Postura' },
-      { id: 'ritmo-caminar', name: 'Ritmo al caminar' },
-      { id: 'gracia', name: 'Gracia' },
-      { id: 'coordinacion', name: 'Coordinación' },
-    ],
-  },
-  {
-    id: 'uso-escenario',
-    name: 'Uso del Escenario',
-    aspects: [
-      { id: 'aprovechamiento-espacio', name: 'Aprovechamiento del espacio' },
-      { id: 'movimientos-naturales', name: 'Movimientos Naturales' },
-      { id: 'equilibrio', name: 'Equilibrio' },
-    ],
-  },
-  {
-    id: 'actitud',
-    name: 'Actitud',
-    aspects: [
-      { id: 'confianza', name: 'Confianza' },
-      { id: 'simpatia', name: 'Simpatía' },
-      { id: 'energia-positiva', name: 'Energía positiva' },
-      { id: 'conexion-publico', name: 'Conexión con el público' },
-    ],
-  },
-  {
-    id: 'hablar-publico',
-    name: 'Hablar en público',
-    aspects: [
-      { id: 'claridad', name: 'Claridad' },
-      { id: 'diccion', name: 'Dicción' },
-      { id: 'tono-voz', name: 'Tono de Voz' },
-      { id: 'lenguaje-corporal', name: 'Lenguaje Corporal' },
-      { id: 'coherencia', name: 'Coherencia' },
-    ],
-  },
-  {
-    id: 'tiempo-presentacion',
-    name: 'Tiempo de Presentación',
-    aspects: [{ id: 'cumplimiento-tiempo', name: 'Cumplimiento con el tiempo establecido' }],
-  },
-];
-
 export const roundLabels: Record<RoundId, string> = {
   1: 'Primera Salida: Imagen y Presentación',
-  2: 'Ronda 2',
-  3: 'Ronda 3',
+  2: 'Segunda Salida: Pasarela & Dominio Escénico',
+  3: 'Tercera Salida: Comunicación',
 };
 
 export const criteriaByRound: Record<RoundId, Criterion[]> = {
@@ -136,8 +65,83 @@ export const criteriaByRound: Record<RoundId, Criterion[]> = {
       ],
     },
   ],
-  2: legacyCriteria,
-  3: legacyCriteria,
+  2: [
+    {
+      id: 'pasarela',
+      name: 'Pasarela',
+      aspects: [
+        { id: 'seguridad', name: 'Seguridad' },
+        { id: 'postura-pasarela', name: 'Postura' },
+        { id: 'ritmo', name: 'Ritmo' },
+        { id: 'gracia', name: 'Gracia' },
+      ],
+      crownGuide: [
+        { crowns: 3, description: 'Camina con seguridad, elegancia y dominio.' },
+        { crowns: 2, description: 'Buena pasarela con leves fallas.' },
+        { crowns: 1, description: 'Caminar inseguro o poco fluido.' },
+        { crowns: 0, description: 'Falta de coordinación evidente.' },
+      ],
+    },
+    {
+      id: 'uso-escenario',
+      name: 'Uso del Escenario',
+      aspects: [
+        { id: 'aprovechamiento-espacio', name: 'Aprovechamiento del espacio' },
+        { id: 'movimientos-naturales', name: 'Movimientos Naturales' },
+      ],
+      crownGuide: [
+        { crowns: 3, description: 'Excelente dominio del escenario.' },
+        { crowns: 2, description: 'Buen uso del espacio con pequeñas dudas.' },
+        { crowns: 1, description: 'Uso limitado del espacio.' },
+        { crowns: 0, description: 'No utiliza adecuadamente el escenario.' },
+      ],
+    },
+    {
+      id: 'tiempo-presentacion',
+      name: 'Tiempo de Presentación',
+      aspects: [{ id: 'cumplimiento-tiempo', name: 'Cumplimiento del Tiempo Establecido' }],
+      crownGuide: [
+        { crowns: 3, description: 'Cumple perfectamente el tiempo.' },
+        { crowns: 2, description: 'Ligera variación del tiempo.' },
+        { crowns: 1, description: 'Se extiende o termina demasiado rápido.' },
+        { crowns: 0, description: 'No respeta el tiempo.' },
+      ],
+    },
+  ],
+  3: [
+    {
+      id: 'hablar-publico',
+      name: 'Hablar en Público',
+      aspects: [
+        { id: 'claridad', name: 'Claridad' },
+        { id: 'diccion', name: 'Dicción' },
+        { id: 'tono-voz', name: 'Tono de voz' },
+        { id: 'lenguaje-corporal', name: 'Lenguaje Corporal' },
+      ],
+      crownGuide: [
+        { crowns: 3, description: 'Expresión clara, segura y fluida.' },
+        { crowns: 2, description: 'Buena comunicación con pequeños detalles.' },
+        { crowns: 1, description: 'Dificultad para expresarse.' },
+        { crowns: 0, description: 'No logra comunicar su mensaje.' },
+      ],
+    },
+    {
+      id: 'contenido-respuesta',
+      name: 'Contenido de la respuesta',
+      aspects: [
+        { id: 'coherencia', name: 'Coherencia' },
+        { id: 'profundidad', name: 'Profundidad' },
+        { id: 'valores', name: 'Valores' },
+        { id: 'relevancia-mensaje', name: 'Relevancia del Mensaje' },
+      ],
+      crownGuide: [
+        { crowns: 3, description: 'Respuesta profunda, coherente y bien estructurada.' },
+        { crowns: 2, description: 'Buena respuesta con ideas claras.' },
+        { crowns: 1, description: 'Respuesta simple o poco desarrollada.' },
+        { crowns: 0, description: 'Respuesta incoherente o fuera del tema.' },
+      ],
+    },
+  ],
 };
 
 export function getRoundCriteria(round: RoundId): Criterion[] {
