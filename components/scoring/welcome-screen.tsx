@@ -18,12 +18,12 @@ export function WelcomeScreen({ judgeName, onChangeName, onContinue }: WelcomeSc
               <Sparkles className="h-5 w-5" />
             </div>
           </div>
-          <CardTitle className="text-2xl sm:text-3xl">Bienvenida al Panel de Jueceo</CardTitle>
+          <CardTitle className="text-2xl sm:text-3xl">Miss/Mr. Teen Wonder Beauty</CardTitle>
           <CardDescription>Ingresa tu nombre para iniciar la evaluación.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <label className="space-y-2 block">
-            <span className="text-sm text-muted-foreground">Nombre de la jueza / juez</span>
+            <span className="text-sm text-muted-foreground">Nombre del jurado</span>
             <input
               value={judgeName}
               onChange={(event) => onChangeName(event.target.value)}

@@ -3,7 +3,7 @@ import { Contestant, Criterion, RoundId, ScoresState } from '@/lib/types';
 export const contestants: Contestant[] = [
   { id: 'valeria-cruz', name: 'Valeria Cruz' },
   { id: 'camila-ortiz', name: 'Camila Ortiz' },
-  { id: 'sophia-rivera', name: 'Sophia Rivera' },
+  { id: 'mateo-rivera', name: 'Mateo Rivera' },
 ];
 
 export const rounds: RoundId[] = [1, 2, 3];

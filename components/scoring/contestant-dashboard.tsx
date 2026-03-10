@@ -47,9 +47,9 @@ export function ContestantDashboard({
       <header className="rounded-3xl border border-border bg-white/80 p-4 shadow-card">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Button variant="ghost" onClick={onBackToContestants}>
-            <ArrowLeft className="h-4 w-4 mr-1" /> Concursantes
+            <ArrowLeft className="h-4 w-4 mr-1" /> Participantes
           </Button>
-          <Badge variant="primary">Juez: {judgeName}</Badge>
+          <Badge variant="primary">Jurado: {judgeName}</Badge>
         </div>
         <div className="mt-3 flex flex-wrap items-end justify-between gap-3">
           <div>

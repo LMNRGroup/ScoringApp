@@ -15,7 +15,7 @@ export function ContestantSelection({ judgeName, contestants, onSelect, onChange
     <div className="section-shell animate-fadeUp space-y-6">
       <header className="flex flex-wrap items-center justify-between gap-3 rounded-3xl bg-white/70 border border-border px-4 py-3 shadow-card">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Jueza / Juez</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Jurado</p>
           <p className="font-semibold text-lg">{judgeName}</p>
         </div>
         <Button variant="secondary" size="sm" onClick={onChangeJudge}>
@@ -24,7 +24,7 @@ export function ContestantSelection({ judgeName, contestants, onSelect, onChange
       </header>
 
       <div className="space-y-1">
-        <h1 className="text-2xl sm:text-3xl font-semibold">Selecciona una concursante</h1>
+        <h1 className="text-2xl sm:text-3xl font-semibold">Selecciona participante</h1>
         <p className="text-sm text-muted-foreground">Escoge a quién deseas puntuar en esta ronda.</p>
       </div>
 
@@ -38,7 +38,7 @@ export function ContestantSelection({ judgeName, contestants, onSelect, onChange
                 </div>
               </div>
               <CardTitle>{contestant.name}</CardTitle>
-              <CardDescription>Lista para evaluación</CardDescription>
+              <CardDescription>Participante en evaluación</CardDescription>
             </CardHeader>
             <CardContent>
               <Button className="w-full" onClick={() => onSelect(contestant.id)}>

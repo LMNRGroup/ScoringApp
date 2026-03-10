@@ -14,17 +14,18 @@ const STORAGE_KEY = 'judging-prototype:v1';
 
 interface PersistedState {
   judgeName: string;
+  judgeConfirmed: boolean;
   selectedRound: RoundId;
   scores: ScoresState;
 }
 
 export default function HomePage() {
   const [judgeName, setJudgeName] = useState('');
+  const [judgeConfirmed, setJudgeConfirmed] = useState(false);
   const [selectedContestantId, setSelectedContestantId] = useState<string | null>(null);
   const [selectedRound, setSelectedRound] = useState<RoundId>(1);
   const [scores, setScores] = useState<ScoresState>(() => createInitialScoresState());
   const [activeCriterionId, setActiveCriterionId] = useState<string | null>(null);
-  const [activeAspectIndex, setActiveAspectIndex] = useState(0);
   const [submitDialogOpen, setSubmitDialogOpen] = useState(false);
   const [justSubmitted, setJustSubmitted] = useState(false);
 
@@ -45,6 +46,7 @@ export default function HomePage() {
     try {
       const parsed = JSON.parse(raw) as PersistedState;
       if (parsed.judgeName) setJudgeName(parsed.judgeName);
+      if (parsed.judgeConfirmed) setJudgeConfirmed(parsed.judgeConfirmed);
       if (parsed.selectedRound) setSelectedRound(parsed.selectedRound);
       if (parsed.scores) setScores(parsed.scores);
     } catch {
@@ -55,11 +57,12 @@ export default function HomePage() {
   useEffect(() => {
     const payload: PersistedState = {
       judgeName,
+      judgeConfirmed,
       selectedRound,
       scores,
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-  }, [judgeName, selectedRound, scores]);
+  }, [judgeName, judgeConfirmed, selectedRound, scores]);
 
   useEffect(() => {
     if (!justSubmitted) return;
@@ -75,11 +78,7 @@ export default function HomePage() {
     const criterion = criteria.find((item) => item.id === criterionId);
     if (!criterion) return;
 
-    const criterionValues = scores[selectedContestant.id][selectedRound].criteria[criterionId];
-    const firstPending = criterion.aspects.findIndex((aspect) => criterionValues[aspect.id] === undefined);
-
     setActiveCriterionId(criterionId);
-    setActiveAspectIndex(firstPending === -1 ? 0 : firstPending);
   };
 
   const updateAspectScore = (aspectId: string, value: number) => {
@@ -125,10 +124,11 @@ export default function HomePage() {
 
   const resetJudge = () => {
     setJudgeName('');
+    setJudgeConfirmed(false);
     setSelectedContestantId(null);
   };
 
-  if (!judgeName.trim()) {
+  if (!judgeConfirmed) {
     return (
       <WelcomeScreen
         judgeName={judgeName}
@@ -136,6 +136,7 @@ export default function HomePage() {
         onContinue={() => {
           if (judgeName.trim().length < 2) return;
           setJudgeName(judgeName.trim());
+          setJudgeConfirmed(true);
         }}
       />
     );
@@ -156,6 +157,7 @@ export default function HomePage() {
     activeCriterion && selectedContestant
       ? scores[selectedContestant.id][selectedRound].criteria[activeCriterion.id]
       : {};
+  const activeCriterionIndex = activeCriterion ? criteria.findIndex((criterion) => criterion.id === activeCriterion.id) : -1;
 
   return (
     <>
@@ -178,16 +180,21 @@ export default function HomePage() {
       <CriterionOverlay
         criterion={activeCriterion}
         open={!!activeCriterion}
-        currentAspectIndex={activeAspectIndex}
+        criterionIndex={Math.max(activeCriterionIndex, 0)}
+        totalCriteria={criteria.length}
         values={activeValues}
         locked={isRoundLocked}
+        isLastCriterion={activeCriterionIndex >= criteria.length - 1}
         onClose={() => setActiveCriterionId(null)}
-        onBack={() => setActiveAspectIndex((current) => Math.max(0, current - 1))}
-        onNext={() => {
+        onNextCriterion={() => {
           if (!activeCriterion) return;
-          setActiveAspectIndex((current) => Math.min(activeCriterion.aspects.length - 1, current + 1));
+          const currentIndex = criteria.findIndex((criterion) => criterion.id === activeCriterion.id);
+          if (currentIndex === -1 || currentIndex === criteria.length - 1) {
+            setActiveCriterionId(null);
+            return;
+          }
+          setActiveCriterionId(criteria[currentIndex + 1].id);
         }}
-        onFinish={() => setActiveCriterionId(null)}
         onChangeAspectScore={updateAspectScore}
       />
 

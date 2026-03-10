@@ -3,7 +3,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Plataforma de Jueceo',
-  description: 'Prototipo frontend para evaluación de concursantes',
+  description: 'Prototipo frontend para evaluación de participantes',
 };
 
 export const viewport: Viewport = {
