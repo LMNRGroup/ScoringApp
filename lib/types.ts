@@ -10,10 +10,16 @@ export interface Aspect {
   name: string;
 }
 
+export interface CrownGuideItem {
+  crowns: 0 | 1 | 2 | 3;
+  description: string;
+}
+
 export interface Criterion {
   id: string;
   name: string;
   aspects: Aspect[];
+  crownGuide?: CrownGuideItem[];
 }
 
 export type AspectScoreMap = Record<string, number | undefined>;

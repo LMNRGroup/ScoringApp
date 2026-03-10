@@ -7,7 +7,7 @@ export function getCriterionTotal(
   criterion: Criterion
 ): number {
   return criterion.aspects.reduce((sum, aspect) => {
-    const value = scores[contestantId][round].criteria[criterion.id][aspect.id];
+    const value = scores[contestantId]?.[round]?.criteria?.[criterion.id]?.[aspect.id];
     return sum + (value ?? 0);
   }, 0);
 }
@@ -18,7 +18,7 @@ export function getCriterionCompleted(
   round: RoundId,
   criterion: Criterion
 ): boolean {
-  return criterion.aspects.every((aspect) => scores[contestantId][round].criteria[criterion.id][aspect.id] !== undefined);
+  return criterion.aspects.every((aspect) => scores[contestantId]?.[round]?.criteria?.[criterion.id]?.[aspect.id] !== undefined);
 }
 
 export function getRoundCompletedCount(
@@ -49,7 +49,7 @@ export function getRoundStatus(
   if (roundData.submitted) return 'submitted';
 
   const hasAny = criteria.some((criterion) =>
-    criterion.aspects.some((aspect) => roundData.criteria[criterion.id][aspect.id] !== undefined)
+    criterion.aspects.some((aspect) => roundData.criteria?.[criterion.id]?.[aspect.id] !== undefined)
   );
 
   return hasAny ? 'in_progress' : 'not_started';

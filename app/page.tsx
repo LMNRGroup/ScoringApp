@@ -3,12 +3,20 @@
 import { useEffect, useMemo, useState } from 'react';
 import { CheckCircle2 } from 'lucide-react';
 import { Criterion, RoundId, ScoresState } from '@/lib/types';
-import { contestants, criteria, createInitialScoresState, rounds } from '@/lib/mock-data';
+import {
+  contestants,
+  createInitialScoresState,
+  getRoundCriteria,
+  normalizeScoresState,
+  roundLabels,
+  rounds,
+} from '@/lib/mock-data';
 import { WelcomeScreen } from '@/components/scoring/welcome-screen';
 import { ContestantSelection } from '@/components/scoring/contestant-selection';
 import { ContestantDashboard } from '@/components/scoring/contestant-dashboard';
 import { CriterionOverlay } from '@/components/scoring/criterion-overlay';
 import { SubmitRoundDialog } from '@/components/scoring/submit-round-dialog';
+import { getRoundStatus } from '@/lib/scoring';
 
 const STORAGE_KEY = 'judging-prototype:v1';
 const INTRO_SEEN_KEY = 'luminar-intro-seen:v1';
@@ -36,9 +44,11 @@ export default function HomePage() {
     [selectedContestantId]
   );
 
+  const selectedRoundCriteria = useMemo(() => getRoundCriteria(selectedRound), [selectedRound]);
+
   const activeCriterion = useMemo<Criterion | null>(
-    () => criteria.find((item) => item.id === activeCriterionId) ?? null,
-    [activeCriterionId]
+    () => selectedRoundCriteria.find((item) => item.id === activeCriterionId) ?? null,
+    [activeCriterionId, selectedRoundCriteria]
   );
 
   useEffect(() => {
@@ -65,7 +75,7 @@ export default function HomePage() {
       if (parsed.judgeName) setJudgeName(parsed.judgeName);
       if (parsed.judgeConfirmed) setJudgeConfirmed(parsed.judgeConfirmed);
       if (parsed.selectedRound) setSelectedRound(parsed.selectedRound);
-      if (parsed.scores) setScores(parsed.scores);
+      if (parsed.scores) setScores(normalizeScoresState(parsed.scores));
     } catch {
       // Ignore malformed persisted data.
     }
@@ -97,7 +107,7 @@ export default function HomePage() {
   const openCriterion = (criterionId: string) => {
     if (!selectedContestant || isRoundLocked) return;
 
-    const criterion = criteria.find((item) => item.id === criterionId);
+    const criterion = selectedRoundCriteria.find((item) => item.id === criterionId);
     if (!criterion) return;
 
     setActiveCriterionId(criterionId);
@@ -196,7 +206,9 @@ export default function HomePage() {
     activeCriterion && selectedContestant
       ? scores[selectedContestant.id][selectedRound].criteria[activeCriterion.id]
       : {};
-  const activeCriterionIndex = activeCriterion ? criteria.findIndex((criterion) => criterion.id === activeCriterion.id) : -1;
+  const activeCriterionIndex = activeCriterion
+    ? selectedRoundCriteria.findIndex((criterion) => criterion.id === activeCriterion.id)
+    : -1;
 
   const allRoundsSubmitted = rounds.every((round) => scores[selectedContestant.id][round].submitted);
 
@@ -205,7 +217,8 @@ export default function HomePage() {
       <ContestantDashboard
         judgeName={judgeName}
         contestant={selectedContestant}
-        criteria={criteria}
+        roundLabels={roundLabels}
+        criteria={selectedRoundCriteria}
         scores={scores}
         selectedRound={selectedRound}
         rounds={rounds}
@@ -217,6 +230,7 @@ export default function HomePage() {
         }}
         onOpenCriterion={openCriterion}
         onSubmitRound={() => setSubmitDialogOpen(true)}
+        getRoundStatus={(round) => getRoundStatus(scores, selectedContestant.id, round, getRoundCriteria(round))}
         isRoundSelectable={(round) => isRoundSelectableForContestant(selectedContestant.id, round)}
         allRoundsSubmitted={allRoundsSubmitted}
       />
@@ -225,19 +239,19 @@ export default function HomePage() {
         criterion={activeCriterion}
         open={!!activeCriterion}
         criterionIndex={Math.max(activeCriterionIndex, 0)}
-        totalCriteria={criteria.length}
+        totalCriteria={selectedRoundCriteria.length}
         values={activeValues}
         locked={isRoundLocked}
-        isLastCriterion={activeCriterionIndex >= criteria.length - 1}
+        isLastCriterion={activeCriterionIndex >= selectedRoundCriteria.length - 1}
         onClose={() => setActiveCriterionId(null)}
         onNextCriterion={() => {
           if (!activeCriterion) return;
-          const currentIndex = criteria.findIndex((criterion) => criterion.id === activeCriterion.id);
-          if (currentIndex === -1 || currentIndex === criteria.length - 1) {
+          const currentIndex = selectedRoundCriteria.findIndex((criterion) => criterion.id === activeCriterion.id);
+          if (currentIndex === -1 || currentIndex === selectedRoundCriteria.length - 1) {
             setActiveCriterionId(null);
             return;
           }
-          setActiveCriterionId(criteria[currentIndex + 1].id);
+          setActiveCriterionId(selectedRoundCriteria[currentIndex + 1].id);
         }}
         onChangeAspectScore={updateAspectScore}
       />

@@ -73,6 +73,22 @@ export function CriterionOverlay({
           ))}
         </div>
 
+        {criterion.crownGuide?.length ? (
+          <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3">
+            <p className="text-xs uppercase tracking-[0.2em] text-amber-800">Guía de coronas</p>
+            <div className="mt-2 space-y-1.5 text-sm text-amber-900">
+              {criterion.crownGuide
+                .slice()
+                .sort((a, b) => b.crowns - a.crowns)
+                .map((item) => (
+                  <p key={`${criterion.id}-${item.crowns}`}>
+                    <strong>{item.crowns} coronas:</strong> {item.description}
+                  </p>
+                ))}
+            </div>
+          </div>
+        ) : null}
+
         {locked ? (
           <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
             Esta ronda ya fue enviada. Solo lectura.

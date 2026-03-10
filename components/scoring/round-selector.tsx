@@ -4,6 +4,7 @@ import { RoundId } from '@/lib/types';
 
 interface RoundSelectorProps {
   rounds: RoundId[];
+  roundLabels: Record<RoundId, string>;
   selectedRound: RoundId;
   onSelectRound: (round: RoundId) => void;
   getStatus: (round: RoundId) => 'not_started' | 'in_progress' | 'submitted';
@@ -22,7 +23,7 @@ const statusVariant = {
   submitted: 'success',
 } as const;
 
-export function RoundSelector({ rounds, selectedRound, onSelectRound, getStatus, isRoundSelectable }: RoundSelectorProps) {
+export function RoundSelector({ rounds, roundLabels, selectedRound, onSelectRound, getStatus, isRoundSelectable }: RoundSelectorProps) {
   return (
     <div className="rounded-3xl border border-border bg-white/80 p-3 shadow-card">
       <p className="px-1 pb-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">Rondas</p>
@@ -42,7 +43,7 @@ export function RoundSelector({ rounds, selectedRound, onSelectRound, getStatus,
               } ${selectable ? 'hover:border-primary/40' : 'opacity-60 cursor-not-allowed'}`}
             >
               <div className="flex items-center justify-between gap-2">
-                <p className="font-medium">Ronda {round}</p>
+                <p className="font-medium">{roundLabels[round]}</p>
                 {selectable ? (
                   <Badge variant={statusVariant[status]}>{statusLabel[status]}</Badge>
                 ) : (

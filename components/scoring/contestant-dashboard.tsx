@@ -6,7 +6,6 @@ import {
   getCriterionCompleted,
   getCriterionTotal,
   getRoundCompletedCount,
-  getRoundStatus,
   getRoundTotalPoints,
 } from '@/lib/scoring';
 import { CriterionCard } from '@/components/scoring/criterion-card';
@@ -16,6 +15,7 @@ import { AppLogo } from '@/components/brand/app-logo';
 interface ContestantDashboardProps {
   judgeName: string;
   contestant: Contestant;
+  roundLabels: Record<RoundId, string>;
   criteria: Criterion[];
   scores: ScoresState;
   selectedRound: RoundId;
@@ -24,6 +24,7 @@ interface ContestantDashboardProps {
   onSelectRound: (round: RoundId) => void;
   onOpenCriterion: (criterionId: string) => void;
   onSubmitRound: () => void;
+  getRoundStatus: (round: RoundId) => 'not_started' | 'in_progress' | 'submitted';
   isRoundSelectable: (round: RoundId) => boolean;
   allRoundsSubmitted: boolean;
 }
@@ -31,6 +32,7 @@ interface ContestantDashboardProps {
 export function ContestantDashboard({
   judgeName,
   contestant,
+  roundLabels,
   criteria,
   scores,
   selectedRound,
@@ -39,6 +41,7 @@ export function ContestantDashboard({
   onSelectRound,
   onOpenCriterion,
   onSubmitRound,
+  getRoundStatus,
   isRoundSelectable,
   allRoundsSubmitted,
 }: ContestantDashboardProps) {
@@ -76,9 +79,10 @@ export function ContestantDashboard({
 
       <RoundSelector
         rounds={rounds}
+        roundLabels={roundLabels}
         selectedRound={selectedRound}
         onSelectRound={onSelectRound}
-        getStatus={(round) => getRoundStatus(scores, contestant.id, round, criteria)}
+        getStatus={getRoundStatus}
         isRoundSelectable={isRoundSelectable}
       />
 
@@ -91,7 +95,9 @@ export function ContestantDashboard({
       <section className="grid gap-3 sm:grid-cols-3">
         <div className="rounded-3xl border border-border bg-white/85 p-4 shadow-card">
           <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Criterios completados</p>
-          <p className="mt-2 text-3xl font-semibold">{completedCount}/7</p>
+          <p className="mt-2 text-3xl font-semibold">
+            {completedCount}/{criteria.length}
+          </p>
         </div>
         <div className="rounded-3xl border border-border bg-white/85 p-4 shadow-card">
           <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Puntos acumulados</p>
@@ -99,7 +105,7 @@ export function ContestantDashboard({
         </div>
         <div className="rounded-3xl border border-border bg-white/85 p-4 shadow-card">
           <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Ronda actual</p>
-          <p className="mt-2 text-3xl font-semibold">{selectedRound}</p>
+          <p className="mt-2 text-xl font-semibold">{roundLabels[selectedRound]}</p>
         </div>
       </section>
 
@@ -137,7 +143,7 @@ export function ContestantDashboard({
           {!roundData.submitted ? (
             <p className="mt-2 text-center text-xs text-muted-foreground flex items-center justify-center gap-1">
               <Medal className="h-3 w-3" />
-              Completa los 7 criterios para habilitar el envío
+              Completa los {criteria.length} criterios para habilitar el envío
             </p>
           ) : null}
         </div>
