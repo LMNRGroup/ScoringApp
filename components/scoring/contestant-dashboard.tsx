@@ -49,6 +49,16 @@ export function ContestantDashboard({
   const completedCount = getRoundCompletedCount(scores, contestant.id, selectedRound, criteria);
   const points = getRoundTotalPoints(scores, contestant.id, selectedRound, criteria);
   const allDone = completedCount === criteria.length;
+  const totalAccumulatedPoints = Object.values(scores[contestant.id]).reduce<number>((sum, roundScore) => {
+    const roundTotal = Object.values(roundScore.criteria).reduce<number>((roundSum, criterionScoreMap) => {
+      const criterionTotal = Object.values(criterionScoreMap).reduce<number>((criterionSum, aspectValue) => {
+        return criterionSum + (aspectValue ?? 0);
+      }, 0);
+      return roundSum + criterionTotal;
+    }, 0);
+
+    return sum + roundTotal;
+  }, 0);
 
   return (
     <div className="section-shell animate-fadeUp space-y-5">
@@ -66,6 +76,10 @@ export function ContestantDashboard({
           <div>
             <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Panel de evaluación</p>
             <h1 className="text-2xl sm:text-3xl font-semibold">{contestant.name}</h1>
+          </div>
+          <div className="text-right">
+            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Total acumulado</p>
+            <p className="text-3xl sm:text-4xl font-extrabold leading-none">{totalAccumulatedPoints}</p>
           </div>
           {roundData.submitted ? (
             <Badge variant="success">
